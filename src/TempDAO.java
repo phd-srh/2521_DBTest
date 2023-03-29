@@ -10,11 +10,17 @@ public class TempDAO implements DAO {
 
     @Override
     public boolean insertText(int id, String text) {
-        return false;
+        if (getText(id) == null) {
+            tableList.add(new Table(id, text));
+            return true;
+        }
+        else
+            return false;
     }
 
     @Override
     public String getText(int id) {
+        // TODO
         return null;
     }
 
