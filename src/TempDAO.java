@@ -6,6 +6,11 @@ public class TempDAO implements DAO {
 
     public TempDAO() {
         tableList = new ArrayList<>();
+        // einige Datensätze einfügen
+        insertText( getLastID()+1, "Test1" );
+        insertText( getLastID()+1, "Apfel" );
+        insertText( getLastID()+1, "Keksdose" );
+        insertText( getLastID()+1, "Bleistift" );
     }
 
     @Override
@@ -20,22 +25,36 @@ public class TempDAO implements DAO {
 
     @Override
     public String getText(int id) {
-        // TODO
+        for (Table table : tableList) {
+            if (table.getId() == id)
+                return table.getText();
+        }
         return null;
     }
 
     @Override
     public boolean updateText(int id, String text) {
-        return false;
+        deleteText(id);
+        return insertText(id, text);
     }
 
     @Override
     public void deleteText(int id) {
-
+        for (int i=0; i<tableList.size(); i++) {
+            if (tableList.get(i).getId() == id) {
+                tableList.remove(i);
+                break;
+            }
+        }
     }
 
     @Override
     public int getLastID() {
-        return 0;
+        int lastID = 0;
+        for (Table table : tableList) {
+            if (table.getId() > lastID)
+                lastID = table.getId();
+        }
+        return lastID;
     }
 }
