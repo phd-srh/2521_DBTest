@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class TempDAO implements DAO {
     // interner Speicher
@@ -30,6 +31,15 @@ public class TempDAO implements DAO {
                 return table.getText();
         }
         return null;
+    }
+
+    @Override
+    public List<String> getAll() {
+        ArrayList<String> stringListe = new ArrayList<>();
+        for (Table table : tableList) {
+            stringListe.add( table.getText() );
+        }
+        return stringListe;
     }
 
     @Override
