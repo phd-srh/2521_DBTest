@@ -3,7 +3,7 @@ import java.util.List;
 
 public class TempDAO implements DAO {
     // interner Speicher
-    private ArrayList<Table> tableList;
+    private List<Table> tableList;
 
     public TempDAO() {
         tableList = new ArrayList<>();
@@ -35,7 +35,7 @@ public class TempDAO implements DAO {
 
     @Override
     public List<String> getAll() {
-        ArrayList<String> stringListe = new ArrayList<>();
+        List<String> stringListe = new ArrayList<>();
         for (Table table : tableList) {
             stringListe.add( table.getText() );
         }
