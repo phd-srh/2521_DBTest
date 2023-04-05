@@ -1,6 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        DAO db = new TempDAO();
+        //DAO db = new TempDAO();
+        DAO db = new SQLDAO();
         showDB(db);
 
         db.deleteText(3);
