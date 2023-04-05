@@ -6,8 +6,13 @@ public class Hauptprogramm {
 
 
     private static int erfrageID() {
-        System.out.print("Bitte ID eingeben: ");
-        return eingabe.nextInt();
+        int id;
+        do {
+            System.out.print("Bitte ID eingeben: ");
+            id = eingabe.nextInt();
+        } while (id < 0);
+        if (id == 0) id = db.getLastID() + 1;
+        return id;
     }
 
     private static String erfrageText() {
