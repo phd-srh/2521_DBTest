@@ -4,6 +4,18 @@ public class Hauptprogramm {
     private static Scanner eingabe = new Scanner(System.in);
     private static DAO db = new TempDAO();
 
+
+    private static int erfrageID() {
+        System.out.print("Bitte ID eingeben: ");
+        return eingabe.nextInt();
+    }
+
+    private static String erfrageText() {
+        System.out.print("Bitte Text eingeben: ");
+        return eingabe.next() + eingabe.nextLine();
+    }
+
+
     public static void main(String[] args) {
         Hauptschleife:
         while (true) {
@@ -22,18 +34,15 @@ public class Hauptprogramm {
             String text;
             switch (auswahl) {
                 case 1:
-                    System.out.print("Bitte ID eingeben: ");
-                    id = eingabe.nextInt();
-                    System.out.print("Bitte Text eingeben: ");
-                    text = eingabe.next();
+                    id = erfrageID();
+                    text = erfrageText();
                     if (db.insertText(id, text))
                         System.out.println("Datensatz erfolgreich gespeichert");
                     else
                         System.out.println("Fehler beim Speichern");
                     break;
                 case 2:
-                    System.out.print("Bitte ID eingeben: ");
-                    id = eingabe.nextInt();
+                    id = erfrageID();
                     text = db.getText(id);
                     if (text != null)
                         System.out.println("Datensatz: " + text);
@@ -46,11 +55,9 @@ public class Hauptprogramm {
                     }
                     break;
                 case 4:
-                    System.out.print("Bitte ID eingeben: ");
-                    id = eingabe.nextInt();
+                    id = erfrageID();
                     if (db.getText(id) != null) {
-                        System.out.print("Bitte Text eingeben: ");
-                        text = eingabe.next();
+                        text = erfrageText();
                         if ( db.updateText(id, text) )
                             System.out.println("Datensatz wurde geändert");
                         else
@@ -60,8 +67,7 @@ public class Hauptprogramm {
                         System.out.println("Datensatz existiert nicht");
                     break;
                 case 5:
-                    System.out.print("Bitte ID eingeben: ");
-                    id = eingabe.nextInt();
+                    id = erfrageID();
                     if (db.getText(id) != null) {
                         System.out.print("Wirklich löschen (J/N): ");
                         if ( eingabe.next().toUpperCase().charAt(0) == 'J')
@@ -74,6 +80,7 @@ public class Hauptprogramm {
                 default:
                     System.out.println("Ungültige Eingabe.");
             }
+            System.out.println();
         }
     }
 }
