@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Hauptprogramm {
     private static Scanner eingabe = new Scanner(System.in);
-    private static DAO db = new TempDAO();
+    private static DAO db = new SQLDAO();
 
 
     private static int erfrageID() {

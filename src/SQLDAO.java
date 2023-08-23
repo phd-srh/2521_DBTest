@@ -20,6 +20,7 @@ public class SQLDAO implements DAO {
             e.printStackTrace();
             System.exit(-1);
         }
+        System.out.println("Yeah, es hat wohl geklappt");
     }
 
 
