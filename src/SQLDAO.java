@@ -54,6 +54,19 @@ public class SQLDAO implements DAO {
 
     @Override
     public String getText(int id) {
+        try {
+            PreparedStatement sqlCommand = sqlConnection.prepareStatement(
+                    "SELECT text FROM `table` WHERE id = ?");
+            sqlCommand.setInt(1, id);
+            ResultSet sqlResult = sqlCommand.executeQuery();
+            if ( sqlResult.next() ) {
+                return sqlResult.getString("text");
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("Probleme beim Anfragen des Datensatzes");
+            System.err.println( e.getMessage() );
+        }
         return null;
     }
 
