@@ -1,7 +1,8 @@
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SQLDAO implements DAO {
-
     private static final String SQL_DRIVER   = "org.mariadb.jdbc.Driver";
     private static final String SQL_SERVER   = "127.0.0.1";
     private static final String SQL_PORT     = "3306";
@@ -9,20 +10,42 @@ public class SQLDAO implements DAO {
     private static final String SQL_USER     = "dbtestadm";
     private static final String SQL_PASSWORD = "geheim123";
 
+    private Connection sqlConnection = null;
 
     public SQLDAO() {
         try {
             Class.forName(SQL_DRIVER);
         }
         catch (ClassNotFoundException e) {
-            System.out.println("MariaDB SQL Connector ist nicht installiert.");
-            System.out.println( e.getMessage() );
-            e.printStackTrace();
+            System.err.println("MariaDB SQL Connector ist nicht installiert.");
+            System.err.println( e.getMessage() );
+            //e.printStackTrace();
             System.exit(-1);
         }
-        System.out.println("Yeah, es hat wohl geklappt");
+        openConnection();
     }
 
+    private void openConnection() {
+        try {
+            sqlConnection =
+            DriverManager.getConnection(
+                    "jdbc:mariadb://" + SQL_SERVER + ":" + SQL_PORT + "/" + SQL_DATABASE,
+                    SQL_USER, SQL_PASSWORD);
+        }
+        catch (SQLException e) {
+            System.out.println("Probleme beim Aufbau der Verbindung");
+            System.err.println( e.getMessage() );
+            System.exit(-2);
+        }
+    }
+
+    private void closeConnection() {
+        try {
+            if (sqlConnection != null)
+                sqlConnection.close();
+        }
+        catch (SQLException ignored) {}
+    }
 
     @Override
     public boolean insertText(int id, String text) {
@@ -36,7 +59,20 @@ public class SQLDAO implements DAO {
 
     @Override
     public List<String> getAll() {
-        return null;
+        ArrayList<String> ergebnisListe = new ArrayList<>();
+        try {
+            Statement sqlCommand = sqlConnection.createStatement();
+            ResultSet sqlResult = sqlCommand.executeQuery("SELECT text FROM `table`");
+            while ( sqlResult.next() ) {
+                String text = sqlResult.getString("text");
+                ergebnisListe.add( text );
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("Probleme beim Anfragen der Datensätze");
+            System.err.println( e.getMessage() );
+        }
+        return ergebnisListe;
     }
 
     @Override
