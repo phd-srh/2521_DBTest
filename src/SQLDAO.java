@@ -112,6 +112,15 @@ public class SQLDAO implements DAO {
 
     @Override
     public int getLastID() {
+        try {
+            Statement sqlCommand = sqlConnection.createStatement();
+            ResultSet sqlResult = sqlCommand.executeQuery(
+                "SELECT MAX(id) AS maxid FROM `table`"
+            );
+            if (sqlResult.next())
+                return sqlResult.getInt("maxid");
+        }
+        catch (SQLException ignored) {}
         return 0;
     }
 }
