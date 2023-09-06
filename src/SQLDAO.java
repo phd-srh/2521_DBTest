@@ -49,6 +49,18 @@ public class SQLDAO implements DAO {
 
     @Override
     public boolean insertText(int id, String text) {
+        try {
+            PreparedStatement insertCommand = sqlConnection.prepareStatement(
+                    "INSERT INTO `table` (id, text) VALUE (?, ?)"
+            );
+            insertCommand.setInt(1, id);
+            insertCommand.setString(2, text);
+            return (insertCommand.executeUpdate() == 1);
+        }
+        catch (SQLException e) {
+            System.out.println("Probleme beim Einfügen eines Datensatzes");
+            System.err.println( e.getMessage() );
+        }
         return false;
     }
 
