@@ -102,12 +102,19 @@ public class SQLDAO implements DAO {
 
     @Override
     public boolean updateText(int id, String text) {
-        return false;
+        deleteText(id);
+        return insertText(id, text);
     }
 
     @Override
     public void deleteText(int id) {
-
+        try {
+            PreparedStatement deleteCommand = sqlConnection.prepareStatement(
+                    "DELETE FROM `table` WHERE id = ?");
+            deleteCommand.setInt(1, id);
+            deleteCommand.execute();
+        }
+        catch (SQLException ignored) {}
     }
 
     @Override
